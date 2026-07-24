@@ -11,15 +11,15 @@ import { ResponseError } from "../app/error.js";
 export async function errMiddleware(err, req, res, next) {
     if(err instanceof z.ZodError) {
         res.status(400).json({
-            message: err.message
-        })
+            message: err.issues
+        });
     } else if(err instanceof ResponseError) {
         res.status(err.status).json({
             message: err.message
-        })
+        });
     } else {
         res.status(500).json({
             message: "interval server error"
-        })
+        });
     }
 }

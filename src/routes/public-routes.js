@@ -7,17 +7,17 @@ const publicRouter = express.Router();
 
 publicRouter.get('/', async(req, res, next) => {
     try {
-        throw new ResponseError(400, "test error")
+        throw new ResponseError(400, "test error");
 
         res.status(200).json({
             message: "success"
         });
     } catch (error) {
-        next(error)
+        next(error);
     }
-})
+});
 
 
 export {
     publicRouter
-}
+};
