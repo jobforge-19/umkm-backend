@@ -1,18 +1,15 @@
 import express from "express";
+import { errMiddleware } from "../middleware/error-middleware.js";
+import { publicRouter } from "../routes/public-routes.js";
 
 const web = express();
 
 
 web.use(express.json())
 
+web.use(publicRouter)
 
-
-// test enpoint
-web.get('/', async(req, res) => {
-    res.status(200).json({
-        message: "success"
-    })
-})
+web.use(errMiddleware)
 
 export {
     web
