@@ -1,0 +1,10 @@
+{
+    "ignore": [
+        ".git/"
+    ],
+    "verbose": true,
+    "execMap": {
+        "js": "node src/server.js"
+    },
+    "ext": "js,json,ts"
+}
