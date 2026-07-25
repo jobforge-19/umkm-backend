@@ -63,9 +63,9 @@ model ProfileSupplier {
 
 model Address {
   id                BigInt           @id @default(autoincrement())
-  kabupaten         String
   provinsi          String
-  jalan             String
+  regency         String
+  street            String
   detail            String?
   profileUmkmId     BigInt?          @unique
   profileUmkm       ProfileUmkm?     @relation(fields: [profileUmkmId], references: [id], onDelete: Cascade)
