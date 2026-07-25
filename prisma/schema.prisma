@@ -24,7 +24,7 @@ model User {
   email           String           @unique
   role            Role             @default(UMKM)
   password        String
-  noWa            String
+  noWa            String?
   profileUmkm     ProfileUmkm?
   profileSupplier ProfileSupplier?
   created_at      DateTime         @default(now())
