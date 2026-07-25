@@ -20,7 +20,6 @@ const registerUserSupplier = z.object({
     });
 
 const registerUserUmkm = z.object({
-
     username: z
         .string()
         .regex(/^[a-zA-Z0-9_]+$/, "Username Tidak Boleh Mengandung Spasi")
