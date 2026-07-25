@@ -5,7 +5,7 @@ const registerUserPemasok = z.object({
         .string()
         .email("Format Email Tidak Valid :(")
         .max(20, "Email Maksimal 20 Karakter"),
-    kata_sandi: z
+    password: z
         .string()
         .min(8, "Password Minimal 8 Karakter"),
 
@@ -16,13 +16,18 @@ const registerUserPemasok = z.object({
         .max(20, "Username Maksimal 20 Karakter"),
     noWa: z
         .number()
-        .min(12, "Nomor Whatsapp Minimal 12 Katakter")
-        .max(20, "Nomor Whatsapp Maksimal 20 Karakter"),
+        .min(12, "Nomor Whatsapp Minimal 12 Angka")
+        .max(20, "Nomor Whatsapp Maksimal 20 Angka"),
+
+    address: z
+        .string()
+        .min(5, "Alamat UMKM Minimal Satu Karakter")
+        .max(70, "Alamat UMKM Maksimal 70 Karakter"),
 
     nama_usaha_or_kebun: z 
         .string()
         .min(3, "Nama Kebun Atau Usaha Minimal 3 Karakter")
-        .max(20, "Username Maksimal 20 Katakter"),
+        .max(20, "Nama Kebun Atau Usaha Maksimal 20 Katakter"),
     nama_lengkap: z
         .string()
         .min(3, "Nama Lengkap Minimal 3 Karakter")
@@ -37,7 +42,7 @@ const registerUserUmkm = z.object({
         .min(1, "Deskripsi UMKM Minimal Satu Karakter")
         .max(70, "Deskripsi UMKM Maksimal 70 Karakter"),
 
-    alamat: z
+    address: z
         .string()
         .min(5, "Alamat UMKM Minimal Satu Karakter")
         .max(70, "Alamat UMKM Maksimal 70 Karakter"),
@@ -53,12 +58,12 @@ const registerUserUmkm = z.object({
         .min(12, "Nomor Whatsapp Minimal 12 Katakter")
         .max(20, "Nomor Whatsapp Maksimal 20 Karakter"),
 
-    nama_umkm: z 
+    umkmName: z 
         .string()
         .min(3, "Nama UMKM Minimal 3 Karakter")
         .max(20, "Nama UMKM Maksimal 20 Katakter"),
 
-    kata_sandi: z
+    password: z
         .string()
         .min(8, "Password Minimal 8 Karakter"),
 
