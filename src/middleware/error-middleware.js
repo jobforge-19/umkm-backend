@@ -19,7 +19,7 @@ export async function errMiddleware(err, req, res, next) {
         });
     } else {
         res.status(500).json({
-            message: "interval server error"
+            message: err.message
         });
     }
 }
