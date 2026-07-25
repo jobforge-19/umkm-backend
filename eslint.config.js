@@ -4,4 +4,4 @@ export default [
             "semi": ["error", "always"]
         }
     }
-]
+];
