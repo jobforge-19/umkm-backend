@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-const registerUserSupplier = z.object({
+const registerUserPemasok = z.object({
     email: z
         .string()
         .email("Format Email Tidak Valid")
@@ -8,10 +8,10 @@ const registerUserSupplier = z.object({
     password: z
         .string()
         .min(8, "Password Minimal 8 Karakter"),
-    supplierName: z 
+    suppliername: z 
         .string()
-        .min(3, "Nama Kebun Atau Usaha Minimal 3 Karakter")
-        .max(20, "Nama Kebun Atau Usaha Maksimal 20 Katakter"),
+        .min(3, "Nama Supplier Minimal 3 Karakter")
+        .max(20, "Nama Supplier Maksimal 20 Katakter"),
     username: z
         .string()
         .min(3, "Nama Lengkap Minimal 3 Karakter")
@@ -39,7 +39,7 @@ const registerUserUmkm = z.object({
 });
 
 export {
-    registerUserSupplier,
+    registerUserPemasok,
     registerUserUmkm
 };
 
