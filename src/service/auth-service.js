@@ -17,6 +17,7 @@ async function registerUmkm(request) {
     
     const result = await prisma.user.create({
         data: {
+            fullName: request.fullName,
             username: request.username,
             email: request.email,
             password: hashedPassword,
@@ -42,6 +43,7 @@ async function registerSupplier(request){
 
         const hasil = await prisma.user.create({
             data: {
+                fullName: request.fullName,
                 username: request.username,
                 email: request.email,
                 password: request.password,

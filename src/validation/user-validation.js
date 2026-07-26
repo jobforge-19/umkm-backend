@@ -1,6 +1,10 @@
 import {email, z} from "zod";
 
 const ReqRegisterSupplier = z.object({
+    fullName: z
+        .string()
+        .min(3, "Nama Lengkap Minimal 3 Karakter")
+        .max(50, "Nama Lengkap Maksimal 50 Karakter"),
     email: z
         .email("Format Email Tidak Valid")
         .max(20, "Email Maksimal 20 Karakter"),
@@ -13,12 +17,18 @@ const ReqRegisterSupplier = z.object({
         .max(20, "Nama Supplier Maksimal 20 Katakter"),
     username: z
         .string()
+        .regex(/^[a-zA-Z0-9_]+$/, "Username Tidak Boleh Mengandung Spasi")
         .min(3, "Nama Lengkap Minimal 3 Karakter")
         .max(20, "Nama Lengkap Maksimal 20 Karakter"),
-    
     });
 
 const ReqRegisterUmkm = z.object({
+
+    fullName: z
+        .string()
+        .min(3, "Nama Lengkap Minimal 3 Karakter")
+        .max(50, "Nama Lengkap Maksimal 50 Karakter"),
+
     username: z
         .string()
         .regex(/^[a-zA-Z0-9_]+$/, "Username Tidak Boleh Mengandung Spasi")
