@@ -1,5 +1,7 @@
 import authService from "../service/auth-service.js";
 import {ReqLogin, ReqRegisterSupplier, ReqRegisterUmkm} from "../validation/user-validation.js";
+import jwtUtils from "../utils/jwt.js";
+import { ResponseError } from "../app/error.js";
 
 /**
  * 
@@ -59,10 +61,38 @@ async function login(req, res, next) {
     }
 }
 
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ */
+async function getAccessToken(req, res, next) {
+    try {
+        const token = req.cookies.refresh_token;
+
+        if(!token) throw new ResponseError(401, "Unauthorized");
+
+        const decodedToken = await jwtUtils.verifyJwtToken(token.split(" ")[1], process.env.JWT_PRIVATEKEY);
+        const accessToken = jwtUtils.createAccesToken({
+            fullName: decodedToken.fullName,
+            role: decodedToken.role,
+            username: decodedToken.username
+        });
+
+        res.status(200).json({
+            accessToken: accessToken
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 export default {
     registerUmkm,
     registerSupplier,
-    login
+    login,
+    getAccessToken
 };
 

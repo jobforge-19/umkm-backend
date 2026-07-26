@@ -6,5 +6,5 @@
     "execMap": {
         "js": "node src/server.js"
     },
-    "ext": "js,json,ts,prisma"
+    "ext": "js,json,ts,prisma,db"
 }

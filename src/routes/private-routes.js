@@ -1,13 +1,13 @@
 import express from "express";
-import { isLoginMiddleware } from "../middleware/auth-middleware.js";
+import { onlyLoggedUser } from "../middleware/auth-middleware.js";
 
 
 const onlyLoginRouter = express.Router();
 
 
-onlyLoginRouter.use(isLoginMiddleware);
+onlyLoginRouter.use(onlyLoggedUser);
 
-onlyLoginRouter.post("/test/auth", async(req, res, next) => {
+onlyLoginRouter.get("/token", async(req, res, next) => {
     try {
         res.status(200).json({
             message: "success"

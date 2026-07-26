@@ -9,6 +9,8 @@ const publicRouter = express.Router();
 publicRouter.post("/auth/register/umkm", authController.registerUmkm);
 publicRouter.post("/auth/login", authController.login);
 
+publicRouter.get("/auth/refresh", authController.getAccessToken);
+
 export {
     publicRouter
 };

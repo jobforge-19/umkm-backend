@@ -82,13 +82,13 @@ async function login(request) {
         }
     });
 
-    if(!user) throw ResponseError(401, "Harap Login Telebih daulu");
+    if(!user) throw new ResponseError(401, "Harap Login Telebih daulu");
 
     const isPwValid = await bcrypt.compare(request.password, user.password);
     
     const isEmailValid = user.email == request.email;
 
-    if(isEmailValid && isPwValid) throw new ResponseError(400, "Password/Email Tidak Valid");
+    if(!(isEmailValid && isPwValid)) throw new ResponseError(400, "Password/Email Tidak Valid");
 
     const refreshToken = jwtUtil.createRefreshToken({
         fullName: user.fullName,
