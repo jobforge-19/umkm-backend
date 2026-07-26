@@ -1,5 +1,5 @@
 import authService from "../service/auth-service.js";
-import {ReqRegisterUmkm} from "../validation/user-validation.js";
+import {ReqRegisterSupplier, ReqRegisterUmkm} from "../validation/user-validation.js";
 
 /**
  * 
@@ -14,7 +14,7 @@ async function registerUmkm(req, res, next) {
         const result = await authService.registerUmkm(request);
 
         res.status(200).json({
-            message: `user ${result.username} berhasil resgiter`
+            message: `user ${result.username} berhasil register`
         });
     } catch (error) {
         next(error);
@@ -22,7 +22,19 @@ async function registerUmkm(req, res, next) {
 }
 
 
+async function registerSupplier(req, res, next){
+    try{
+        const request = ReqRegisterSupplier.parse(req.body);
+        const hasil = await authService.registerSupplier(request);
+        res.status(200).json({message: `user ${hasil.username} berhasil register`});
+    }
+    catch(error){
+        next(error);
+    }
+}
+
 
 export default {
     registerUmkm
 };
+
