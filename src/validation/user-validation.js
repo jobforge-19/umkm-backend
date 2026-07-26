@@ -1,6 +1,6 @@
 import {z} from "zod";
 
-const registerUserPemasok = z.object({
+const ReqRegisterSupplier = z.object({
     email: z
         .string()
         .email("Format Email Tidak Valid")
@@ -19,7 +19,7 @@ const registerUserPemasok = z.object({
     
     });
 
-const registerUserUmkm = z.object({
+const ReqRegisterUmkm = z.object({
     username: z
         .string()
         .regex(/^[a-zA-Z0-9_]+$/, "Username Tidak Boleh Mengandung Spasi")
@@ -39,8 +39,8 @@ const registerUserUmkm = z.object({
 });
 
 export {
-    registerUserPemasok,
-    registerUserUmkm
+    ReqRegisterSupplier,
+    ReqRegisterUmkm
 };
 
 
