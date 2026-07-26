@@ -10,14 +10,14 @@ import { ResponseError } from "../app/error.js";
  */
 export async function onlyLoggedUser(req, res, next) {
     try {
-        const token = req.cookies.refresh_token;
+        const refreshToken = req.cookies.refresh_token;
+        const accessToken = req.get("Authorization");
 
-        if (!token) throw new ResponseError(401, "Unauthorized");
+        if (!refreshToken) throw new ResponseError(401, "Unauthorized");
+        await jwtUtils.verifyJwtToken(refreshToken.split(" ")[1], process.env.JWT_PRIVATEKEY);
 
-        const decodedToken = await jwtUtils.verifyJwtToken(token.split(" ")[1], process.env.JWT_PRIVATEKEY);
-        res.status(200).json({
-            hh: decodedToken.fullName
-        });
+        if (!accessToken) throw new ResponseError(400, "Access token tidak valid");
+        await jwtUtils.verifyJwtToken(accessToken.split(" ")[1], process.env.JWT_PUBLICKEY);
         next();
     } catch (error) {
         next(error);
