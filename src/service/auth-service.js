@@ -1,8 +1,9 @@
 import { prisma } from "../app/database.js";
 import { ResponseError } from "../app/error.js";
 import {checkDuplicate} from "../utils/exists.js";
-import { ReqRegisterUmkm} from "../validation/user-validation.js";
+import { ReqRegisterUmkm, ReqLogin} from "../validation/user-validation.js";
 import bcrypt from "bcrypt";
+import jwtUtil from "../utils/jwt.js";
 
 /**
  * @typedef {import("zod").z.infer<typeof ReqRegisterUmkm>} RequestRegisterUmkm
@@ -61,10 +62,47 @@ async function registerSupplier(request){
 }
 
 
+/**
+ * 
+ * @param {import("zod").z.infer<typeof ReqLogin>} request 
+ */
+async function login(request) {
+    const user = await prisma.user.findUnique({
+        select: {
+            fullName: true,
+            username: true,
+            email: true,
+            password: true,
+            role: true
+        },
+        where: {
+            email: request.email
+        }
+    });
+
+    if(!user) throw ResponseError(401, "Harap Login Telebih daulu");
+
+    const isPwValid = await bcrypt.compare(request.password, user.password);
+    
+    const isEmailValid = user.email == request.email;
+
+    if(isEmailValid && isPwValid) throw new ResponseError(400, "Password/Email Tidak Valid");
+
+    const refreshToken = jwtUtil.createRefreshToken({
+        fullName: user.fullName,
+        username: user.username,
+        role: user.role
+    });
+
+    return refreshToken;
+}
+
 
 
 
 
 export default {
-    registerUmkm, registerSupplier
+    registerUmkm, 
+    registerSupplier,
+    login
 };

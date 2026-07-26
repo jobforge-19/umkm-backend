@@ -9,8 +9,6 @@ onlyLoginRouter.use(isLoginMiddleware);
 
 onlyLoginRouter.post("/test/auth", async(req, res, next) => {
     try {
-        // 
-        userLogin.parse(reqestFromFrontend);
         res.status(200).json({
             message: "success"
         });

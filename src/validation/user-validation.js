@@ -1,8 +1,7 @@
-import {z} from "zod";
+import {email, z} from "zod";
 
 const ReqRegisterSupplier = z.object({
     email: z
-        .string()
         .email("Format Email Tidak Valid")
         .max(20, "Email Maksimal 20 Karakter"),
     password: z
@@ -33,14 +32,23 @@ const ReqRegisterUmkm = z.object({
         .string()
         .min(8, "Password Minimal 8 Karakter"),
     email: z
-        .string()
         .email("Format Email Tidak Valid")
         .max(20, "Email Maksimal 20 Karakter"),
 });
 
+const ReqLogin = z.object({
+    email: z
+        .email("Format Email Tidadk Valid")
+        .max(20, "Email Maksimal 20 Karakter"),
+    password: z
+        .string()
+        .min(8, "Password Minimal 8 Karakter")
+});
+
 export {
     ReqRegisterSupplier,
-    ReqRegisterUmkm
+    ReqRegisterUmkm,
+    ReqLogin
 };
 
 

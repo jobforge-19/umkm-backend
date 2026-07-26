@@ -1,5 +1,5 @@
 import authService from "../service/auth-service.js";
-import {ReqRegisterSupplier, ReqRegisterUmkm} from "../validation/user-validation.js";
+import {ReqLogin, ReqRegisterSupplier, ReqRegisterUmkm} from "../validation/user-validation.js";
 
 /**
  * 
@@ -33,8 +33,36 @@ async function registerSupplier(req, res, next){
     }
 }
 
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ */
+async function login(req, res, next) {
+    try {
+        const request = ReqLogin.parse(req.body);
+        const token = await authService.login(request);
+
+        res.status(200)
+        .cookie("refresh_token", `Bearer ${token}`, {
+            httpOnly: true,
+            secure: true,
+            path: "/",
+            expires: new Date(Date.now() + 7 * 24 * 60 * 1000)
+        })
+        .json({
+            message: "success login"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 export default {
-    registerUmkm
+    registerUmkm,
+    registerSupplier,
+    login
 };
 
