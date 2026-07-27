@@ -1,7 +1,7 @@
 import express from "express";
 import { errMiddleware } from "../middleware/error-middleware.js";
 import { publicRouter } from "../routes/public-routes.js";
-import { onlyLoginRouter } from "../routes/private-routes.js";
+import { privateRouter } from "../routes/private-routes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -18,7 +18,7 @@ web.use(express.json());
 web.use(cookieParser());
 
 web.use(publicRouter);
-web.use(onlyLoginRouter);
+web.use(privateRouter);
 
 web.use(errMiddleware);
 

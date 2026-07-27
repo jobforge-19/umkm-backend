@@ -89,10 +89,32 @@ async function getAccessToken(req, res, next) {
 }
 
 
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ */
+async function logout(req, res, next) {
+    try {
+        res.clearCookie("refresh_token", {
+            httpOnly: true,
+            secure: true,
+            path: "/"
+        }).status(200).json({
+            message: "success logout"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
 export default {
     registerUmkm,
     registerSupplier,
     login,
+    logout,
     getAccessToken
 };
 

@@ -1,22 +1,25 @@
 import express from "express";
-import { onlyLoggedUser } from "../middleware/auth-middleware.js";
+import { 
+    isAccessTknValid,
+    isRefreshTknValid
+} from "../middleware/auth-middleware.js";
+import authController from "../controller/auth-controller.js";
 
 
-const onlyLoginRouter = express.Router();
+const privateRouter = express.Router();
 
+privateRouter.post("/auth/logout",
+    isRefreshTknValid,
+    isAccessTknValid, 
+    authController.logout
+);
 
-onlyLoginRouter.use(onlyLoggedUser);
+privateRouter.post("/auth/refresh", 
+    isRefreshTknValid,
+    authController.getAccessToken
+);
 
-onlyLoginRouter.get("/token", async(req, res, next) => {
-    try {
-        res.status(200).json({
-            message: "success"
-        });
-    } catch (error) {
-        next(error);
-    }
-}); 
 
 export {
-    onlyLoginRouter
+    privateRouter
 };
