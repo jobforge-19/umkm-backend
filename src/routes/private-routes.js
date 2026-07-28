@@ -16,18 +16,21 @@ import path from "node:path";
 
 const privateRouter = express.Router();
 
-privateRouter.post("/auth/logout",
+privateRouter.post(
+    "/auth/logout",
     isRefreshTknValid,
     isAccessTknValid, 
     authController.logout
 );
 
-privateRouter.post("/auth/refresh", 
+privateRouter.post(
+    "/auth/refresh", 
     isRefreshTknValid,
     authController.getAccessToken
 );
 
-privateRouter.post("/upload/images",
+privateRouter.post(
+    "/upload/images",
     isAccessTknValid,
     upload.single('product'),
     compressMiddleware,
@@ -35,7 +38,10 @@ privateRouter.post("/upload/images",
 );
 
 // serve file
-privateRouter.use("/uploads/images", express.static(path.join(process.cwd(), "uploads/images")));
+privateRouter.use(
+    "/uploads/images", 
+    express.static(path.join(process.cwd(), "uploads/images"))
+);
 
 
 export {
