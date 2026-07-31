@@ -11,31 +11,20 @@ import {
 
 import authController from "../controller/auth-controller.js";
 import fileController from "../controller/file-controller.js";
+import userCotroller from "../controller/user-controller.js";
 import path from "node:path";
 
 
 const privateRouter = express.Router();
 
-privateRouter.post(
-    "/auth/logout",
-    isRefreshTknValid,
-    isAccessTknValid, 
-    authController.logout
-);
+privateRouter.post("/auth/logout", isRefreshTknValid, isAccessTknValid, authController.logout);
+privateRouter.post("/auth/refresh", isRefreshTknValid,authController.getAccessToken);
 
-privateRouter.post(
-    "/auth/refresh", 
-    isRefreshTknValid,
-    authController.getAccessToken
-);
 
-privateRouter.post(
-    "/upload/images",
-    isAccessTknValid,
-    upload.single('product'),
-    compressMiddleware,
-    fileController.uploadFile
-);
+privateRouter.patch("/profile/users/:role", isAccessTknValid, userCotroller.updateProfileUser);
+
+
+privateRouter.post("/upload/images", isAccessTknValid, upload.single('product'), compressMiddleware, fileController.uploadFile);
 
 // serve file
 privateRouter.use(

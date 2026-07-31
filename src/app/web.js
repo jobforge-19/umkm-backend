@@ -5,7 +5,8 @@ import { privateRouter } from "../routes/private-routes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-const web = express();
+const web = express()
+            .route("/api");
 
 
 const corsMiddleware = cors({
