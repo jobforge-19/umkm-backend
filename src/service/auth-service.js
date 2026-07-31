@@ -21,10 +21,11 @@ async function registerUmkm(request) {
             username: request.username,
             email: request.email,
             password: hashedPassword,
+            noWa: request.noWa,
             role: "UMKM",
             profileUmkm: {
                 create: {
-                    umkmName: request.umkmName
+                    businessName: request.businessName
                 }
             }
         },
@@ -47,10 +48,11 @@ async function registerSupplier(request){
                 username: request.username,
                 email: request.email,
                 password: request.password,
+                noWa: request.noWa,
                 role: "SUPPLIER",
                 profileSupplier: {
                     create: {
-                        supplierName: request.supplierName
+                        businessName: request.businessName
                     }
                 }
             }, 

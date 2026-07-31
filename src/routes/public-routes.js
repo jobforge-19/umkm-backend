@@ -7,6 +7,7 @@ import authController from "../controller/auth-controller.js";
 const publicRouter = express.Router();
 
 publicRouter.post("/auth/register/umkm", authController.registerUmkm);
+publicRouter.post("/auth/register/supplier", authController.registerSupplier);
 publicRouter.post("/auth/login", authController.login);
 
 export {
