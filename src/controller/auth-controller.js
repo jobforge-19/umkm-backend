@@ -74,6 +74,7 @@ async function getAccessToken(req, res, next) {
         if(!token) throw new ResponseError(401, "Unauthorized");
 
         const decodedToken = await jwtUtils.verifyJwtToken(token.split(" ")[1], process.env.JWT_PRIVATEKEY);
+        
         const accessToken = jwtUtils.createAccesToken({
             fullName: decodedToken.fullName,
             role: decodedToken.role,

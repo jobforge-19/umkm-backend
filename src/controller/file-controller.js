@@ -1,3 +1,4 @@
+import { getPresignedUrl } from "../service/presignedurl-service.js";
 
 /**
  * 
@@ -15,7 +16,26 @@ async function uploadFile(req, res, next) {
     }
 }
 
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ */
+async function uploadWithSignedUrl(req, res, next) {
+    try {
+        const request = req.body;
+
+        const response = await getPresignedUrl(request);
+
+        return res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 export default {
-    uploadFile
+    uploadFile,
+    uploadWithSignedUrl
 };
