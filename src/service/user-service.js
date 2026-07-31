@@ -90,5 +90,6 @@ async function updateProfileSupplier(request) {
 
 
 export default {
-    ReqUpdateUserProfile
+    updateProfileUmkm,
+    updateProfileSupplier
 };
