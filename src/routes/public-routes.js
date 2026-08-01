@@ -11,8 +11,6 @@ publicRouter.post("/auth/register/umkm", authController.registerUmkm);
 publicRouter.post("/auth/register/supplier", authController.registerSupplier);
 publicRouter.post("/auth/login", authController.login);
 
-
-
 publicRouter.post("/get-presigned-url", fileController.uploadWithSignedUrl);
 
 export {

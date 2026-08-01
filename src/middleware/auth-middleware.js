@@ -32,7 +32,7 @@ export async function isAccessTknValid(req, res, next) {
     try {
         const accessToken = req.get("Authorization");
 
-        if (!accessToken) throw new ResponseError(400, "Cannot find Token");
+        if (!accessToken) throw new ResponseError(401, "Unauthorized");
         await jwtUtils.verifyJwtToken(accessToken.split(" ")[1], process.env.JWT_PUBLICKEY);
         next(); 
     } catch (error) {

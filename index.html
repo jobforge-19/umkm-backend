@@ -33,13 +33,14 @@
         statusDiv.innerText = '1/2: Meminta tiket izin unggah dari server...';
 
         // LANGKAH 1: Minta Presigned URL dari Backend Node.js
-        const res = await fetch('http://localhost:3000/get-presigned-url', {
+        const res = await fetch('http://localhost:3000/api/get-presigned-url', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             fileName: file.name,
             fileType: file.type,
             fileSize: file.size,
+            location: "profile/"
           }),
         });
 

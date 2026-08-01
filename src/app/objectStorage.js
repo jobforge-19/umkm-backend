@@ -28,3 +28,5 @@ export async function configureBucketCors(bucketName) {
     await s3Client.send(command);
     console.log(`CORS berhasil dikonfigurasi untuk bucket: ${bucketName}`);
 }
+
+configureBucketCors("umkm-bucket");

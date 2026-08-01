@@ -47,7 +47,7 @@ function verifyJwtToken(token, secretKey, options) {
     return new Promise((resolve, reject) => {
         jwt.verify(token, secretKey, options,  (err, decoded) => {
             if(err) {
-                reject(new ResponseError(400, "token tidak valid"));
+                reject(new ResponseError(400, "Token Invalid"));
                 return;
             }
             resolve(decoded);

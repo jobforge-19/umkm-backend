@@ -16,7 +16,8 @@
   "main": "src/server.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "s3set": "node src/app/objectStorage.js"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
