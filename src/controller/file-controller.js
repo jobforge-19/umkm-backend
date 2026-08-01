@@ -1,4 +1,5 @@
 import { getPresignedUrl } from "../service/presignedurl-service.js";
+import { RequestPresignedUrl } from "../validation/file-validation.js";
 
 /**
  * 
@@ -24,7 +25,7 @@ async function uploadFile(req, res, next) {
  */
 async function uploadWithSignedUrl(req, res, next) {
     try {
-        const request = req.body;
+        const request = RequestPresignedUrl.parse(req.body);
 
         const response = await getPresignedUrl(request);
 
