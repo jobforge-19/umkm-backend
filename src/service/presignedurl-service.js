@@ -6,12 +6,12 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 
-async function getPresignedUrl({fileName, fileType, fileSize, location}) {
-    if(!fileName || !fileType) throw new ResponseError(400, "Invalid input");
+async function getPresignedUrl({ fileName, fileType, fileSize, location }) {
+    if (!fileName || !fileType) throw new ResponseError(400, "Invalid input");
 
-    const MAX_FILE_SIZE = 20 * 1024 * 1024;
+    const MAX_FILE_SIZE = 100 * 1024 * 1024;
 
-    if(fileSize > MAX_FILE_SIZE) throw new ResponseError("file terlalu besar");
+    if (fileSize > MAX_FILE_SIZE) throw new ResponseError("file terlalu besar");
 
     const fileExt = path.parse(fileName).ext;
     const objectKey = `${location}${uuidv4()}${fileExt}`;
@@ -19,7 +19,7 @@ async function getPresignedUrl({fileName, fileType, fileSize, location}) {
     const commad = new PutObjectCommand({
         Bucket: "umkm-bucket",
         Key: objectKey,
-        ContentType: fileType 
+        ContentType: fileType
     });
 
     const uploadUrl = await getSignedUrl(s3Client, commad, {
