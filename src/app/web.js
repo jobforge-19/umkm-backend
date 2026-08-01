@@ -5,8 +5,7 @@ import { privateRouter } from "../routes/private-routes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-const web = express()
-            .route("/api");
+const web = express();
 
 
 const corsMiddleware = cors({
@@ -18,10 +17,18 @@ web.use(corsMiddleware);
 web.use(express.json());
 web.use(cookieParser());
 
-web.use(publicRouter);
-web.use(privateRouter);
+
+web.get('/api', async(req, res, next) => {
+    res.status(200).json({
+        "message": "success"
+    });
+});
+
+web.use("/api", publicRouter, privateRouter);
 
 web.use(errMiddleware);
+
+
 
 export {
     web
