@@ -32,9 +32,26 @@ export async function isAccessTknValid(req, res, next) {
     try {
         const accessToken = req.get("Authorization");
 
-        if (!accessToken) throw new ResponseError(401, "Unauthorized");
-        await jwtUtils.verifyJwtToken(accessToken.split(" ")[1], process.env.JWT_PUBLICKEY);
+        if (!accessToken) throw new ResponseError(400, "Cannot find Token");
+        const token = await jwtUtils.verifyJwtToken(accessToken.split(" ")[1], process.env.JWT_PUBLICKEY);
+        req.user = token;
         next(); 
+    } catch (error) {
+        next(error);
+    }
+}
+
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+
+export async function checkRoleSupplier(req, res, next){
+    try{
+        const rolenya = req.user?.role;
+        if(rolenya !== "SUPPLIER") throw new ResponseError(401, "Hanya Supplier Yang Bisa Menggunakan Fitur Ini");
+        next();
     } catch (error) {
         next(error);
     }

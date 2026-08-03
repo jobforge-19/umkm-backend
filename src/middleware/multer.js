@@ -61,5 +61,13 @@ export const upload = multer({
     limits: {
         fileSize: 4 * 1024 * 1024,
     },
-    storage: storage
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const tipeFile = ["image/png", "image/jpg", "image/jpeg"];
+        if(tipeFile.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb (new ResponseError(400, "Format File Salah"), false);
+        }
+    }
 });

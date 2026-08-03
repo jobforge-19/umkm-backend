@@ -10,7 +10,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgres"
 }
 
 enum Role {
@@ -62,6 +62,9 @@ model ProfileSupplier {
   address      Address?
   created_at   DateTime      @default(now())
   updated_at   DateTime?     @updatedAt
+  products     Products[]
+
+
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -79,3 +82,54 @@ model Address {
   created_at        DateTime         @default(now())
   updated_at        DateTime?        @updatedAt
 }
+
+enum Product_Categories {
+  JAGUNG
+  BIJI_BIJIAN
+  SAYURAN
+  BUAH_BUAHAN
+  UMBI_UMBIAN
+  BERAS_DAN_GABAH
+  REMPAH_DAN_BUMBU
+}
+
+enum Satuan {
+  KG
+  IKAT
+  BOTOL
+  PACK
+  ONS
+  TON
+  GRAM
+  LITER
+  PCS
+  BOX
+  KARUNG
+}
+
+enum Status_Produksi {
+  PANEN
+  HABIS
+  PENGOLAHAN
+  READY
+}
+
+model Products {
+  id            Int              @id @default(autoincrement())
+  id_supplier   Int
+  kategori      Product_Categories
+  namaProduk    String
+  satuan        Satuan
+  harga_satuan  Int
+  moq           Float @default(1.0)
+  stok          Float @default(1.0)
+  foto_produk   String?
+  deskripsi     String?
+  productStatus Status_Produksi? @default(READY)
+  tersedia      Boolean @default(true)
+  createdAt     DateTime         @default(now())
+
+
+  idSupplier  ProfileSupplier  @relation(fields: [id_supplier], references: [id], onDelete: Cascade)
+}
+

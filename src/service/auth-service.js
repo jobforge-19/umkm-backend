@@ -47,7 +47,7 @@ async function registerSupplier(request){
                 fullName: request.fullName,
                 username: request.username,
                 email: request.email,
-                password: request.password,
+                password: hashedPassword,
                 noWa: request.noWa,
                 role: "SUPPLIER",
                 profileSupplier: {
@@ -58,11 +58,42 @@ async function registerSupplier(request){
             }, 
             omit: {password: true}
         });
+        return hasil;
     }
 
     catch(err){
-        nextTick(err);
+        throw new ResponseError(400, err.message);
     }
+}
+
+
+/**
+ * @typedef {import('zod').z.infer<typeof ReqLogin>} request
+ * @param {request} req
+ */
+
+async function add_product(req, accessTokennya){
+    const cariID = await prisma.profilesupplier.findFirst({
+        where: {username: accessTokennya.username},
+        select: {id: true}
+    });
+
+    const keDB = await prisma.products.create({
+        data: {
+            id_supplier: cariID.id,
+            namaProduk: req.namaProduk,
+            kategori: req.kategori,
+            foto_produk: req.foto_produk,
+            satuan: req.satuan,
+            deskripsi: req.deskripsi,
+            harga_satuan: req.harga_satuan,
+            moq: req.moq,
+            stok: req.stok,
+            productStatus: req.productStatus,
+            tersedia: req.tersedia
+        }
+    });
+    return keDB;
 }
 
 
@@ -76,21 +107,19 @@ async function login(request) {
             fullName: true,
             username: true,
             email: true,
-            password: true,
-            role: true
+            role: true,
+            password: true
         },
         where: {
             email: request.email
         }
     });
 
-    if(!user) throw new ResponseError(401, "Harap Login Telebih daulu");
+    if(!user) throw new ResponseError(401, "Akun Tidak Ditemukan");
 
     const isPwValid = await bcrypt.compare(request.password, user.password);
     
-    const isEmailValid = user.email == request.email;
-
-    if(!(isEmailValid && isPwValid)) throw new ResponseError(400, "Password/Email Tidak Valid");
+    if(!(isPwValid)) throw new ResponseError(400, "Password/Email Tidak Valid");
 
     const refreshToken = jwtUtil.createRefreshToken({
         fullName: user.fullName,
@@ -98,7 +127,12 @@ async function login(request) {
         role: user.role
     });
 
-    return refreshToken;
+    const accessToken = jwtUtil.createAccesToken({
+        username: user.username,
+        role: user.role
+    });
+
+    return{ refreshToken, accessToken }; 
 }
 
 
@@ -108,5 +142,6 @@ async function login(request) {
 export default {
     registerUmkm, 
     registerSupplier,
-    login
+    login,
+    add_product
 };
