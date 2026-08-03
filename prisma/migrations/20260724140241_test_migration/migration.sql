@@ -1,6 +1,0 @@
--- CreateTable
-CREATE TABLE "Test" (
-    "id" BIGINT NOT NULL PRIMARY KEY,
-    "testName" TEXT,
-    "CreatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);

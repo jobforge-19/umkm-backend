@@ -1,7 +1,8 @@
 import express from "express";
 import { 
     isAccessTknValid,
-    isRefreshTknValid
+    isRefreshTknValid,
+    checkRoleSupplier
 } from "../middleware/auth-middleware.js";
 
 import { 
@@ -27,6 +28,16 @@ privateRouter.post(
     "/auth/refresh", 
     isRefreshTknValid,
     authController.getAccessToken
+);
+
+privateRouter.post(
+    "/add/product",
+    isAccessTknValid,
+    checkRoleSupplier,
+    upload.single('foto_produk'),
+    compressMiddleware,
+    authController.addProduct
+    
 );
 
 privateRouter.post(
