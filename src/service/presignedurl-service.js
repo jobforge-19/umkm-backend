@@ -9,7 +9,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 async function getPresignedUrl({ fileName, fileType, fileSize, location }) {
     if (!fileName || !fileType) throw new ResponseError(400, "Invalid input");
 
-    const MAX_FILE_SIZE = 100 * 1024 * 1024;
+    const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
     if (fileSize > MAX_FILE_SIZE) throw new ResponseError("file terlalu besar");
 

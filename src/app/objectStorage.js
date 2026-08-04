@@ -29,4 +29,4 @@ export async function configureBucketCors(bucketName) {
     console.log(`CORS berhasil dikonfigurasi untuk bucket: ${bucketName}`);
 }
 
-//configureBucketCors("umkm-bucket"); 
+// configureBucketCors("umkm-bucket"); 
