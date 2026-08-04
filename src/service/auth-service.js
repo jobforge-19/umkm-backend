@@ -72,28 +72,28 @@ async function registerSupplier(request){
  * @param {request} req
  */
 
-async function add_product(req, accessTokennya){
-    const cariID = await prisma.profilesupplier.findFirst({
-        where: {username: accessTokennya.username},
+async function add_product(req, accessToken){
+    const findID = await prisma.profilesupplier.findFirst({
+        where: {username: accessToken.username},
         select: {id: true}
     });
 
-    const keDB = await prisma.products.create({
+    const toDB = await prisma.products.create({
         data: {
-            id_supplier: cariID.id,
-            namaProduk: req.namaProduk,
-            kategori: req.kategori,
-            foto_produk: req.foto_produk,
-            satuan: req.satuan,
-            deskripsi: req.deskripsi,
-            harga_satuan: req.harga_satuan,
+            id_supplier: findID.id,
+            product_name: req.product_name,
+            category: req.category,
+            product_photo: req.product_photo,
+            unit: req.unit,
+            description: req.description,
+            unit_price: req.unit_price,
             moq: req.moq,
-            stok: req.stok,
+            stock: req.stock,
             productStatus: req.productStatus,
-            tersedia: req.tersedia
+            avaliable: req.avaliable
         }
     });
-    return keDB;
+    return toDB;
 }
 
 

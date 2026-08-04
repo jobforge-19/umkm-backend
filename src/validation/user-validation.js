@@ -54,41 +54,41 @@ const ReqRegisterUmkm = z.object({
         .max(13)
 });
 
-const tambahProduk = z.object({
-    foto_produk: z
+const insertProduct = z.object({
+    product_photo: z
         .string()
         .optional(),
-    kategori: z
+    category: z
         .enum(["JAGUNG", "BIJI_BIJIAN", "SAYURAN", "BUAH_BUAHAN", "UMBI_UMBIAN", "BERAS_DAN_GABAH", "REMPAH_DAN_BUMBU"], {
             errorMap: () => ({ pesan: "Kategori Tidak Valid" })
         }),
-     satuan: z
+    unit : z
         .enum(["KG", "IKAT", "KARUNG", "BOX", "PCS", "GRAM", "TON", "LITER", "ONS", "BOTOL", "PACK"], {
             errorMap: () => ({ pesan: "Satuan Tidak Valid" })
      }),
-    namaProduk: z
+    product_name: z
         .string()
         .min(3, "Nama Produk Minimal 3 Karakter")
         .max(50, "Nama Produk Maksimal 50 Karakter"),
-    deskripsi: z
+    description: z
         .string()
         .min(3, "Deskripsi Minimal 3 Karakter")
         .max(200, "Deskripsi Maksimal 200 Karakter")
         .optional(),
-    harga_satuan: z
+    unit_price: z
         .coerce.number()
         .min(1, "Harga Satuan Minimal Rp.1"),
     moq: z
         .coerce.number()
         .min(1, "Pembelian Minimal 1"),
-    stok: z 
+    stock: z 
         .coerce.number()
         .min(1, "Stok Minimal 1"),
     productStatus: z
         .enum(["PANEN", "READY", "HABIS", "PENGOLAHAN"], {
             errorMap: () => ({ pesan: "Status Produk Tidak Valid" })
     }),
-    tersedia: z
+    avaliable: z
         .coerce.boolean()
 });
 
@@ -146,7 +146,7 @@ export {
     ReqRegisterUmkm,
     ReqLogin,
     ReqUpdateUserProfile,
-    tambahProduk
+    insertProduct
 };
 
 

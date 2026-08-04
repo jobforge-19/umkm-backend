@@ -1,5 +1,5 @@
 import authService from "../service/auth-service.js";
-import {ReqLogin, ReqRegisterSupplier, ReqRegisterUmkm, tambahProduk} from "../validation/user-validation.js";
+import {ReqLogin, ReqRegisterSupplier, ReqRegisterUmkm, insertProduct} from "../validation/user-validation.js";
 import jwtUtils from "../utils/jwt.js";
 import { ResponseError } from "../app/error.js";
 import strict from "node:assert/strict";
@@ -99,9 +99,9 @@ async function getAccessToken(req, res, next) {
 
 async function addProduct(req, res, next){
     try{
-        const cekReq = tambahProduk.parse(req.body);
-        const accessTokennya = req.user;
-        const keService = await authService.add_product(cekReq, accessTokennya);
+        const cekReq = insertProduct.parse(req.body);
+        const accessToken = req.user;
+        const keService = await authService.add_product(cekReq, accessToken);
         res.status(201).json({pesan: "Done"});
     }
     catch(error){

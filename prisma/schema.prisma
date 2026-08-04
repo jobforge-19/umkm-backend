@@ -93,7 +93,7 @@ enum Product_Categories {
   REMPAH_DAN_BUMBU
 }
 
-enum Satuan {
+enum Unit {
   KG
   IKAT
   BOTOL
@@ -107,7 +107,7 @@ enum Satuan {
   KARUNG
 }
 
-enum Status_Produksi {
+enum Production_Status {
   PANEN
   HABIS
   PENGOLAHAN
@@ -117,16 +117,16 @@ enum Status_Produksi {
 model Products {
   id            Int              @id @default(autoincrement())
   id_supplier   Int
-  kategori      Product_Categories
-  namaProduk    String
-  satuan        Satuan
-  harga_satuan  Int
+  category      Product_Categories
+  product_name  String
+  unit          Unit
+  unit_price    Int
   moq           Float @default(1.0)
-  stok          Float @default(1.0)
-  foto_produk   String?
-  deskripsi     String?
-  productStatus Status_Produksi? @default(READY)
-  tersedia      Boolean @default(true)
+  stock         Float @default(1.0)
+  product_photo String?
+  description   String?
+  productStatus Production_Status? @default(READY)
+  available     Boolean @default(true)
   createdAt     DateTime         @default(now())
 
 
