@@ -1,7 +1,8 @@
 import authService from "../service/auth-service.js";
-import {ReqLogin, ReqRegisterSupplier, ReqRegisterUmkm} from "../validation/user-validation.js";
+import {ReqLogin, ReqRegisterSupplier, ReqRegisterUmkm, tambahProduk} from "../validation/user-validation.js";
 import jwtUtils from "../utils/jwt.js";
 import { ResponseError } from "../app/error.js";
+import strict from "node:assert/strict";
 
 /**
  * 
@@ -47,14 +48,15 @@ async function login(req, res, next) {
         const token = await authService.login(request);
 
         res.status(200)
-        .cookie("refresh_token", `Bearer ${token}`, {
+        .cookie("refresh_token", `Bearer ${token.refreshToken}`, {
             httpOnly: true,
-            secure: true,
+            secure: false,
+            sameSite: "strict",
             path: "/",
             expires: new Date(Date.now() + 7 * 24 * 60 * 1000)
         })
         .json({
-            message: "success login"
+            message: "success login", access_token: token.accessToken
         });
     } catch (error) {
         next(error);
@@ -89,6 +91,23 @@ async function getAccessToken(req, res, next) {
     }
 }
 
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+
+async function addProduct(req, res, next){
+    try{
+        const cekReq = tambahProduk.parse(req.body);
+        const accessTokennya = req.user;
+        const keService = await authService.add_product(cekReq, accessTokennya);
+        res.status(201).json({pesan: "Done"});
+    }
+    catch(error){
+        next(error);
+    }
+}
 
 /**
  * 
@@ -116,6 +135,7 @@ export default {
     registerSupplier,
     login,
     logout,
-    getAccessToken
+    getAccessToken,
+    addProduct
 };
 
