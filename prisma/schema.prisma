@@ -93,11 +93,7 @@ enum Product_Categories {
   REMPAH_DAN_BUMBU
 }
 
-<<<<<<< HEAD
 enum Unit {
-=======
-enum Satuan {
->>>>>>> fa13e458fca4840b1ae478c28305947bcd1f6c89
   KG
   IKAT
   BOTOL
@@ -111,11 +107,7 @@ enum Satuan {
   KARUNG
 }
 
-<<<<<<< HEAD
 enum Production_Status {
-=======
-enum Status_Produksi {
->>>>>>> fa13e458fca4840b1ae478c28305947bcd1f6c89
   PANEN
   HABIS
   PENGOLAHAN
@@ -125,7 +117,6 @@ enum Status_Produksi {
 model Products {
   id            Int              @id @default(autoincrement())
   id_supplier   Int
-<<<<<<< HEAD
   category      Product_Categories
   product_name  String
   unit          Unit
@@ -136,18 +127,6 @@ model Products {
   description   String?
   productStatus Production_Status? @default(READY)
   available     Boolean @default(true)
-=======
-  kategori      Product_Categories
-  namaProduk    String
-  satuan        Satuan
-  harga_satuan  Int
-  moq           Float @default(1.0)
-  stok          Float @default(1.0)
-  foto_produk   String?
-  deskripsi     String?
-  productStatus Status_Produksi? @default(READY)
-  tersedia      Boolean @default(true)
->>>>>>> fa13e458fca4840b1ae478c28305947bcd1f6c89
   createdAt     DateTime         @default(now())
 
 
