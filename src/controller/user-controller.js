@@ -2,7 +2,8 @@
 import { error } from "node:console";
 import { ResponseError } from "../app/error.js";
 import userService from "../service/user-service.js";
-import { ReqGetUserProfile } from "../validation/user-validation.js";
+import { ReqGetUserProfile, ReqUpdateUserProfile } from "../validation/user-validation.js";
+import z from "zod";
 /**
  * 
  * @param {import("express").Request} req 
@@ -11,10 +12,8 @@ import { ReqGetUserProfile } from "../validation/user-validation.js";
  */
 async function updateProfileUser(req, res, next) {
     try {
-        const role = req.param.role;
+        const request = ReqUpdateUserProfile.parse(req.body);
         let response = null;
-
-        if(!role) throw new ResponseError(400, "role tidak ditemukan");
 
         if (role == "UMKM") {
             response = await userService.updateProfileUmkm(req.body);

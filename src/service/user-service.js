@@ -26,7 +26,7 @@ async function updateProfileUmkm(request) {
             email: request.email,
             fullName: request.fullName, 
             noWa: request.noWa,
-            role: "UMKM",
+            role: request.role,
             profileUmkm: {
                 create: {
                     businessName: request.businessName,

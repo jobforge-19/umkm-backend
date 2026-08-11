@@ -21,9 +21,8 @@ const privateRouter = express.Router();
 privateRouter.post("/auth/logout", isRefreshTknValid, isAccessTknValid, authController.logout);
 privateRouter.post("/auth/refresh", isRefreshTknValid,authController.getAccessToken);
 
-privateRouter.patch("/profile/users/:role", isAccessTknValid, userCotroller.updateProfileUser);
-
-privateRouter.get("/profile/{username}", isAccessTknValid, userCotroller.getProfileUser);
+privateRouter.patch("/profile/users", isAccessTknValid, userCotroller.updateProfileUser);
+privateRouter.get("/profile/users/{username}", isAccessTknValid, userCotroller.getProfileUser);
 
 privateRouter.post("/upload/images", isAccessTknValid, upload.single('product'), compressMiddleware, fileController.uploadFile);
 

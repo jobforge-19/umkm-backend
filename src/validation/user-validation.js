@@ -1,4 +1,5 @@
 import {email, z} from "zod";
+import { Role } from "../generated/prisma/enums";
 
 const ReqRegisterSupplier = z.object({
     fullName: z
@@ -122,6 +123,8 @@ const ReqUpdateUserProfile = z.object({
     bio: z
         .string()
         .optional(),
+    role: z
+        .enum(['UMKM', 'SUPPLIER', 'ADMIN']),
     address: z
         .object({
             province: z
