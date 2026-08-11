@@ -141,12 +141,21 @@ const ReqUpdateUserProfile = z.object({
 
 });
 
+const ReqGetUserProfile = z.object({
+    username: z
+        .string()
+        .regex(/^[a-zA-Z0-9_]+$/, "Username Tidak Boleh Mengandung Spasi")
+        .min(3, "Nama Lengkap Minimal 3 Karakter")
+        .max(20, "Nama Lengkap Maksimal 20 Karakter"),
+});
+
 export {
     ReqRegisterSupplier,
     ReqRegisterUmkm,
     ReqLogin,
     ReqUpdateUserProfile,
-    insertProduct
+    insertProduct,
+    ReqGetUserProfile
 };
 
 

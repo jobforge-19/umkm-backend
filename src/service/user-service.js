@@ -88,8 +88,78 @@ async function updateProfileSupplier(request) {
 }
 
 
+async function getUserProfile(username, role){
+    if(role === "UMKM"){
+        const user = prisma.user.findFirst({
+            where:{
+                username: username
+            },
+            select:{
+                fullName: true,
+                verified: true,
+                username: true,
+                noWa: true,
+                profileUmkm: {
+                    select: {
+                        businessName: true,
+                        address:{
+                            select: {
+                                province: true,
+                                regency: true,
+                                street: true,
+                                details: true
+                            }
+                        },
+                        bio: true,
+                        following: true,
+                        fotoProfile: true,
+                        bgProfile: true
+                    }
+                }
+            }
+        });
+    }
+    else if(role === 'SUPPLIER'){
+        const user = prisma.user.findFirst({
+            where:{
+                username: username
+            },
+            select:{
+                fullName: true,
+                verified: true,
+                username: true,
+                noWa: true,
+                profileSupplier: {
+                    select: {
+                        businessName: true,
+                        address:{
+                            select: {
+                                province: true,
+                                regency: true,
+                                street: true,
+                                details: true
+                            }
+                        },
+                        bio: true,
+                        followers: true,
+                        fotoProfile: true,
+                        bgProfile: true
+                    }
+                }
+            }
+        });
+    }
+    else{
+        return{pesan: "Amboi"};
+
+     }
+
+    return user;
+}
+
 
 export default {
     updateProfileUmkm,
-    updateProfileSupplier
+    updateProfileSupplier,
+    getUserProfile
 };

@@ -23,6 +23,8 @@ privateRouter.post("/auth/refresh", isRefreshTknValid,authController.getAccessTo
 
 privateRouter.patch("/profile/users/:role", isAccessTknValid, userCotroller.updateProfileUser);
 
+privateRouter.get("/profile/{username}", isAccessTknValid, userCotroller.getProfileUser);
+
 privateRouter.post("/upload/images", isAccessTknValid, upload.single('product'), compressMiddleware, fileController.uploadFile);
 
 privateRouter.post(
