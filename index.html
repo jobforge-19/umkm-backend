@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload File Presigned URL</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .status { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h2>Upload File Langsung ke Cloud Storage</h2>
+  <input type="file" id="fileInput" />
+  <button id="uploadBtn" onclick="handleUpload()">Unggah File</button>
+
+  <div id="status" class="status"></div>
+
+  <script>
+    async function handleUpload() {
+      const fileInput = document.getElementById('fileInput');
+      const statusDiv = document.getElementById('status');
+      const uploadBtn = document.getElementById('uploadBtn');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert('Pilih file terlebih dahulu!');
+        return;
+      }
+
+      try {
+        uploadBtn.disabled = true;
+        statusDiv.innerText = '1/2: Meminta tiket izin unggah dari server...';
+
+        // LANGKAH 1: Minta Presigned URL dari Backend Node.js
+        const res = await fetch('http://localhost:3000/api/get-presigned-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fileName: file.name,
+            fileType: file.type,
+            fileSize: file.size,
+            location: "anime/"
+          }),
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || 'Gagal meminta Presigned URL');
+        }
+
+        const { uploadUrl, fileUrl } = await res.json();
+
+        statusDiv.innerText = '2/2: Mengunggah file langsung ke Storage Cloud...';
+
+        // LANGKAH 2: Upload File Langsung ke Cloud Storage via HTTP PUT
+        // ⚠️ PENTING: Header Content-Type HARUS persis sama dengan fileType yang dikirim ke backend!
+        const uploadRes = await fetch(uploadUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': file.type,
+          },
+          body: file, // Payload file mentah (Blob/File)
+        });
+
+        if (!uploadRes.ok) {
+          throw new Error(`Upload gagal dengan status HTTP: ${uploadRes.status}`);
+        }
+
+        statusDiv.innerHTML = `✅ Upload Berhasil!<br>Link File: <a href="${fileUrl}" target="_blank">${fileUrl}</a>`;
+      } catch (err) {
+        console.error(err);
+        statusDiv.innerText = `❌ Error: ${err.message}`;
+      } finally {
+        uploadBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
